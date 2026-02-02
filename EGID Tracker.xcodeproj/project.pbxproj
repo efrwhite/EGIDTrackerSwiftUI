@@ -107,6 +107,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		38F806292F3120A10029E15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 38F805F72F3120A00029E15F;
+			remoteInfo = EGIDTrackerSwiftUI;
+		};
+		38F8062B2F3120A10029E15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 38F806042F3120A00029E15F;
+			remoteInfo = EGIDTrackerSwiftUITests;
+		};
+		38F8062D2F3120A10029E15F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 38F8060E2F3120A00029E15F;
+			remoteInfo = EGIDTrackerSwiftUIUITests;
+		};
 		A40988982A1BF9CD0041BBC7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A40988762A1BF9CC0041BBC7 /* Project object */;
@@ -128,6 +149,7 @@
 		07C2AA2CA2BBAAC7BB49ADA9 /* Pods-Testing_Ground.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Testing_Ground.debug.xcconfig"; path = "Target Support Files/Pods-Testing_Ground/Pods-Testing_Ground.debug.xcconfig"; sourceTree = "<group>"; };
 		160EDD522DAA0D9D00D894D7 /* nodietplanviewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nodietplanviewcontroller.swift; sourceTree = "<group>"; };
 		38B773602C463A54008BDEA6 /* QualityResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualityResultViewController.swift; sourceTree = "<group>"; };
+		38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EGIDTrackerSwiftUI.xcodeproj; path = "/Users/elizabethwhitebaker/Desktop/Isosceles/VIPR class materials/EGIDTrackerSwiftUI/EGIDTrackerSwiftUI.xcodeproj"; sourceTree = "<absolute>"; };
 		612A2540150867C5B9ADA15B /* Pods-Testing_GroundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Testing_GroundTests.release.xcconfig"; path = "Target Support Files/Pods-Testing_GroundTests/Pods-Testing_GroundTests.release.xcconfig"; sourceTree = "<group>"; };
 		65B5A72299AC7B4B729742F4 /* Pods-Testing_GroundUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Testing_GroundUITests.debug.xcconfig"; path = "Target Support Files/Pods-Testing_GroundUITests/Pods-Testing_GroundUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		68A69F976ED7596E17B5141D /* Pods_Testing_Ground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Testing_Ground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +283,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38F806242F3120A10029E15F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38F8062A2F3120A10029E15F /* EGIDTrackerSwiftUI.app */,
+				38F8062C2F3120A10029E15F /* EGIDTrackerSwiftUITests.xctest */,
+				38F8062E2F3120A10029E15F /* EGIDTrackerSwiftUIUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		41562BEBEBB1429A7469E0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,6 +368,7 @@
 		A40988802A1BF9CC0041BBC7 /* Testing_Ground */ = {
 			isa = PBXGroup;
 			children = (
+				38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */,
 				8A4A425F2CED5DB500C4652E /* Lato2OFL */,
 				A40988812A1BF9CC0041BBC7 /* AppDelegate.swift */,
 				A40988832A1BF9CC0041BBC7 /* SceneDelegate.swift */,
@@ -524,6 +557,12 @@
 			mainGroup = A40988752A1BF9CC0041BBC7;
 			productRefGroup = A409887F2A1BF9CC0041BBC7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 38F806242F3120A10029E15F /* Products */;
+					ProjectRef = 38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A409887D2A1BF9CC0041BBC7 /* Testing_Ground */,
@@ -532,6 +571,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		38F8062A2F3120A10029E15F /* EGIDTrackerSwiftUI.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = EGIDTrackerSwiftUI.app;
+			remoteRef = 38F806292F3120A10029E15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38F8062C2F3120A10029E15F /* EGIDTrackerSwiftUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EGIDTrackerSwiftUITests.xctest;
+			remoteRef = 38F8062B2F3120A10029E15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38F8062E2F3120A10029E15F /* EGIDTrackerSwiftUIUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = EGIDTrackerSwiftUIUITests.xctest;
+			remoteRef = 38F8062D2F3120A10029E15F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A409887C2A1BF9CC0041BBC7 /* Resources */ = {
@@ -594,9 +657,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Testing_Ground/Pods-Testing_Ground-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Testing_Ground/Pods-Testing_Ground-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
