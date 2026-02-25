@@ -7,35 +7,35 @@
 		<key>DGCharts-DGCharts.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
 		<key>DGCharts.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
 		<key>Pods-Testing_Ground.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
 		<key>Pods-Testing_GroundTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
 		<key>Pods-Testing_GroundUITests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
