@@ -1,14 +1,9 @@
-# Uncomment the next line to define a global platform for your project
 # platform :ios, '12.0'
 
 use_frameworks!
 
-def shared_pods
-  pod 'DGCharts', '>= 5.1.0'
-end
-
 target 'Testing_Ground' do
-  shared_pods
+  pod 'DGCharts', '>= 5.1.0'
 
   target 'Testing_GroundTests' do
     inherit! :search_paths
@@ -20,7 +15,7 @@ target 'Testing_Ground' do
 end
 
 target 'EGIDTrackerSwiftUI' do
-  shared_pods
+  pod 'DGCharts', '>= 5.1.0'
 
   target 'EGIDTrackerSwiftUITests' do
     inherit! :search_paths
