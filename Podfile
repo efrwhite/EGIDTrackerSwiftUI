@@ -1,17 +1,32 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '12.0'
 
-target 'Testing_Ground' do
-  use_frameworks!
+use_frameworks!
 
-  # ✅ Charts replacement (avoids Swift Charts name conflict + includes privacy manifest in newer releases)
+def shared_pods
   pod 'DGCharts', '>= 5.1.0'
+end
+
+target 'Testing_Ground' do
+  shared_pods
 
   target 'Testing_GroundTests' do
     inherit! :search_paths
   end
 
   target 'Testing_GroundUITests' do
+    inherit! :search_paths
+  end
+end
+
+target 'EGIDTrackerSwiftUI' do
+  shared_pods
+
+  target 'EGIDTrackerSwiftUITests' do
+    inherit! :search_paths
+  end
+
+  target 'EGIDTrackerSwiftUIUITests' do
     inherit! :search_paths
   end
 end
