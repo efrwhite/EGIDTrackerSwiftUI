@@ -1,0 +1,21 @@
+# Xcode
+.DS_Store
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+DerivedData/
+
+# Build products
+build/
+*.ipa
+*.dSYM
+
+# SwiftPM
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Optional: keep the workspace (recommended for CocoaPods projects)
+# (Do NOT ignore *.xcworkspace)
