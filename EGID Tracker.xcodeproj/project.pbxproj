@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -107,6 +107,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3887A9722F52CE1C00C4E512 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A40988762A1BF9CC0041BBC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3887A9642F52CE1B00C4E512;
+			remoteInfo = EGIDTrackerSwiftUI;
+		};
+		3887A97C2F52CE1C00C4E512 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A40988762A1BF9CC0041BBC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3887A9642F52CE1B00C4E512;
+			remoteInfo = EGIDTrackerSwiftUI;
+		};
 		38F806292F3120A10029E15F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */;
@@ -148,6 +162,9 @@
 		00A8FF1CB9A41F930C94FAEA /* Pods_Testing_GroundUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Testing_GroundUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07C2AA2CA2BBAAC7BB49ADA9 /* Pods-Testing_Ground.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Testing_Ground.debug.xcconfig"; path = "Target Support Files/Pods-Testing_Ground/Pods-Testing_Ground.debug.xcconfig"; sourceTree = "<group>"; };
 		160EDD522DAA0D9D00D894D7 /* nodietplanviewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nodietplanviewcontroller.swift; sourceTree = "<group>"; };
+		3887A9652F52CE1B00C4E512 /* EGIDTrackerSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EGIDTrackerSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A9712F52CE1C00C4E512 /* EGIDTrackerSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EGIDTrackerSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A97B2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EGIDTrackerSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38B773602C463A54008BDEA6 /* QualityResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualityResultViewController.swift; sourceTree = "<group>"; };
 		38F806212F3120A10029E15F /* EGIDTrackerSwiftUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EGIDTrackerSwiftUI.xcodeproj; path = "/Users/elizabethwhitebaker/Desktop/Isosceles/VIPR class materials/EGIDTrackerSwiftUI/EGIDTrackerSwiftUI.xcodeproj"; sourceTree = "<absolute>"; };
 		612A2540150867C5B9ADA15B /* Pods-Testing_GroundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Testing_GroundTests.release.xcconfig"; path = "Target Support Files/Pods-Testing_GroundTests/Pods-Testing_GroundTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -255,7 +272,34 @@
 		C01F867898D62A438D74FFC8 /* Pods_Testing_GroundTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Testing_GroundTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3887A9662F52CE1B00C4E512 /* EGIDTrackerSwiftUI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EGIDTrackerSwiftUI; sourceTree = "<group>"; };
+		3887A9742F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EGIDTrackerSwiftUITests; sourceTree = "<group>"; };
+		3887A97E2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EGIDTrackerSwiftUIUITests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		3887A9622F52CE1B00C4E512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A96E2F52CE1C00C4E512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A9782F52CE1C00C4E512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A409887B2A1BF9CC0041BBC7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,6 +393,9 @@
 				A40988802A1BF9CC0041BBC7 /* Testing_Ground */,
 				A409889A2A1BF9CD0041BBC7 /* Testing_GroundTests */,
 				A40988A42A1BF9CD0041BBC7 /* Testing_GroundUITests */,
+				3887A9662F52CE1B00C4E512 /* EGIDTrackerSwiftUI */,
+				3887A9742F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */,
+				3887A97E2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */,
 				A409887F2A1BF9CC0041BBC7 /* Products */,
 				435855E338E77595806B0C8D /* Pods */,
 				41562BEBEBB1429A7469E0ED /* Frameworks */,
@@ -361,6 +408,9 @@
 				A409887E2A1BF9CC0041BBC7 /* Testing_Ground.app */,
 				A40988972A1BF9CD0041BBC7 /* Testing_GroundTests.xctest */,
 				A40988A12A1BF9CD0041BBC7 /* Testing_GroundUITests.xctest */,
+				3887A9652F52CE1B00C4E512 /* EGIDTrackerSwiftUI.app */,
+				3887A9712F52CE1C00C4E512 /* EGIDTrackerSwiftUITests.xctest */,
+				3887A97B2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -466,6 +516,74 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3887A9642F52CE1B00C4E512 /* EGIDTrackerSwiftUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3887A9892F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUI" */;
+			buildPhases = (
+				3887A9612F52CE1B00C4E512 /* Sources */,
+				3887A9622F52CE1B00C4E512 /* Frameworks */,
+				3887A9632F52CE1B00C4E512 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3887A9662F52CE1B00C4E512 /* EGIDTrackerSwiftUI */,
+			);
+			name = EGIDTrackerSwiftUI;
+			packageProductDependencies = (
+			);
+			productName = EGIDTrackerSwiftUI;
+			productReference = 3887A9652F52CE1B00C4E512 /* EGIDTrackerSwiftUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3887A9702F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3887A98A2F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUITests" */;
+			buildPhases = (
+				3887A96D2F52CE1C00C4E512 /* Sources */,
+				3887A96E2F52CE1C00C4E512 /* Frameworks */,
+				3887A96F2F52CE1C00C4E512 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3887A9732F52CE1C00C4E512 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3887A9742F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */,
+			);
+			name = EGIDTrackerSwiftUITests;
+			packageProductDependencies = (
+			);
+			productName = EGIDTrackerSwiftUITests;
+			productReference = 3887A9712F52CE1C00C4E512 /* EGIDTrackerSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3887A97A2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3887A98B2F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUIUITests" */;
+			buildPhases = (
+				3887A9772F52CE1C00C4E512 /* Sources */,
+				3887A9782F52CE1C00C4E512 /* Frameworks */,
+				3887A9792F52CE1C00C4E512 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3887A97D2F52CE1C00C4E512 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3887A97E2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */,
+			);
+			name = EGIDTrackerSwiftUIUITests;
+			packageProductDependencies = (
+			);
+			productName = EGIDTrackerSwiftUIUITests;
+			productReference = 3887A97B2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A409887D2A1BF9CC0041BBC7 /* Testing_Ground */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A40988AB2A1BF9CD0041BBC7 /* Build configuration list for PBXNativeTarget "Testing_Ground" */;
@@ -530,9 +648,20 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					3887A9642F52CE1B00C4E512 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					3887A9702F52CE1C00C4E512 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 3887A9642F52CE1B00C4E512;
+					};
+					3887A97A2F52CE1C00C4E512 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 3887A9642F52CE1B00C4E512;
+					};
 					A409887D2A1BF9CC0041BBC7 = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -568,6 +697,9 @@
 				A409887D2A1BF9CC0041BBC7 /* Testing_Ground */,
 				A40988962A1BF9CD0041BBC7 /* Testing_GroundTests */,
 				A40988A02A1BF9CD0041BBC7 /* Testing_GroundUITests */,
+				3887A9642F52CE1B00C4E512 /* EGIDTrackerSwiftUI */,
+				3887A9702F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */,
+				3887A97A2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -597,6 +729,27 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3887A9632F52CE1B00C4E512 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A96F2F52CE1C00C4E512 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A9792F52CE1C00C4E512 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A409887C2A1BF9CC0041BBC7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -739,6 +892,27 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3887A9612F52CE1B00C4E512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A96D2F52CE1C00C4E512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3887A9772F52CE1C00C4E512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A409887A2A1BF9CC0041BBC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -829,6 +1003,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3887A9732F52CE1C00C4E512 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3887A9642F52CE1B00C4E512 /* EGIDTrackerSwiftUI */;
+			targetProxy = 3887A9722F52CE1C00C4E512 /* PBXContainerItemProxy */;
+		};
+		3887A97D2F52CE1C00C4E512 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3887A9642F52CE1B00C4E512 /* EGIDTrackerSwiftUI */;
+			targetProxy = 3887A97C2F52CE1C00C4E512 /* PBXContainerItemProxy */;
+		};
 		A40988992A1BF9CD0041BBC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A409887D2A1BF9CC0041BBC7 /* Testing_Ground */;
@@ -861,6 +1045,185 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3887A9832F52CE1C00C4E512 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3887A9842F52CE1C00C4E512 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3887A9852F52CE1C00C4E512 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EGIDTrackerSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EGIDTrackerSwiftUI";
+			};
+			name = Debug;
+		};
+		3887A9862F52CE1C00C4E512 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EGIDTrackerSwiftUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EGIDTrackerSwiftUI";
+			};
+			name = Release;
+		};
+		3887A9872F52CE1C00C4E512 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EGIDTrackerSwiftUI;
+			};
+			name = Debug;
+		};
+		3887A9882F52CE1C00C4E512 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FL6J78634M;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = elizabethwhitebaker.EGIDTrackerSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EGIDTrackerSwiftUI;
+			};
+			name = Release;
+		};
 		A40988A92A1BF9CD0041BBC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1124,6 +1487,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3887A9892F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3887A9832F52CE1C00C4E512 /* Debug */,
+				3887A9842F52CE1C00C4E512 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3887A98A2F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3887A9852F52CE1C00C4E512 /* Debug */,
+				3887A9862F52CE1C00C4E512 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3887A98B2F52CE1C00C4E512 /* Build configuration list for PBXNativeTarget "EGIDTrackerSwiftUIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3887A9872F52CE1C00C4E512 /* Debug */,
+				3887A9882F52CE1C00C4E512 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A40988792A1BF9CC0041BBC7 /* Build configuration list for PBXProject "EGID Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
