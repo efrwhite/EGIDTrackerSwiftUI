@@ -136,3 +136,6 @@ struct ChildProfileView: View {
         }
     }
 }
+#Preview {
+    ChildProfileView()
+}

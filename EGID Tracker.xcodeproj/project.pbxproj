@@ -423,13 +423,13 @@
 				A40988802A1BF9CC0041BBC7 /* Testing_Ground */,
 				A409889A2A1BF9CD0041BBC7 /* Testing_GroundTests */,
 				A40988A42A1BF9CD0041BBC7 /* Testing_GroundUITests */,
-				3887A9662F52CE1B00C4E512 /* EGIDTrackerSwiftUI */,
 				3887A9742F52CE1C00C4E512 /* EGIDTrackerSwiftUITests */,
 				3887A97E2F52CE1C00C4E512 /* EGIDTrackerSwiftUIUITests */,
 				A409887F2A1BF9CC0041BBC7 /* Products */,
 				435855E338E77595806B0C8D /* Pods */,
 				41562BEBEBB1429A7469E0ED /* Frameworks */,
 				D4C6B2532F588A4A002BCD49 /* GoogleService-Info.plist */,
+				3887A9662F52CE1B00C4E512 /* EGIDTrackerSwiftUI */,
 			);
 			sourceTree = "<group>";
 		};
