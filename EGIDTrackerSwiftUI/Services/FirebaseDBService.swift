@@ -275,6 +275,181 @@ final class FirebaseDBService {
             )
         }
     }
+    
+    // MARK: - Allergens
+    
+    func fetchAllergensForCurrentChild() async throws -> [AllergenItem] {
+        guard let childId = getCurrentChildId() else {
+            return []
+        }
+        
+        let snapshot = try await db.collection("Allergens")
+            .whereField("childId", isEqualTo: childId)
+            .getDocuments()
+        
+        return snapshot.documents.map { doc in
+            AllergenItem(
+                id: doc.documentID,
+                allergenName: doc.get("allergenName") as? String ?? "",
+                diagnosisDate: doc.get("diagnosisDate") as? String ?? "",
+                severity: doc.get("severity") as? String ?? "Select Severity",
+                igE: doc.get("igE") as? Bool ?? false,
+                cleared: doc.get("cleared") as? Bool ?? false,
+                clearedDate: doc.get("clearedDate") as? String ?? "",
+                notes: doc.get("notes") as? String ?? "",
+                childId: doc.get("childId") as? String ?? ""
+            )
+        }
+    }
+    
+    func addAllergen(allergen: AllergenItem) async throws {
+        let allergenMap: [String: Any] = [
+            "allergenName": allergen.allergenName,
+            "diagnosisDate": allergen.diagnosisDate,
+            "severity": allergen.severity,
+            "igE": allergen.igE,
+            "cleared": allergen.cleared,
+            "clearedDate": allergen.clearedDate,
+            "notes": allergen.notes,
+            "childId": allergen.childId
+        ]
+        
+        _ = try await db.collection("Allergens").addDocument(data: allergenMap)
+    }
+    
+    func updateAllergen(allergen: AllergenItem) async throws {
+        guard let allergenId = allergen.id else {
+            throw DBServiceError.allergenNotFound
+        }
+        
+        let allergenMap: [String: Any] = [
+            "allergenName": allergen.allergenName,
+            "diagnosisDate": allergen.diagnosisDate,
+            "severity": allergen.severity,
+            "igE": allergen.igE,
+            "cleared": allergen.cleared,
+            "clearedDate": allergen.clearedDate,
+            "notes": allergen.notes,
+            "childId": allergen.childId
+        ]
+        
+        try await db.collection("Allergens").document(allergenId).setData(allergenMap)
+    }
+    
+    func updateAllergenNotes(allergenId: String, notes: String) async throws {
+        try await db.collection("Allergens").document(allergenId).updateData([
+            "notes": notes
+        ])
+    }
+    
+    func fetchAllergen(allergenId: String) async throws -> AllergenItem {
+        let doc = try await db.collection("Allergens").document(allergenId).getDocument()
+        
+        guard doc.exists else {
+            throw DBServiceError.allergenNotFound
+        }
+        
+        return AllergenItem(
+            id: doc.documentID,
+            allergenName: doc.get("allergenName") as? String ?? "",
+            diagnosisDate: doc.get("diagnosisDate") as? String ?? "",
+            severity: doc.get("severity") as? String ?? "Select Severity",
+            igE: doc.get("igE") as? Bool ?? false,
+            cleared: doc.get("cleared") as? Bool ?? false,
+            clearedDate: doc.get("clearedDate") as? String ?? "",
+            notes: doc.get("notes") as? String ?? "",
+            childId: doc.get("childId") as? String ?? ""
+        )
+    }
+    
+    // MARK: - Accidental Exposure
+    
+    func addAccidentalExposure(item: AccidentalExposureItem) async throws {
+        let itemMap: [String: Any] = [
+            "itemName": item.itemName,
+            "description": item.description,
+            "date": item.date,
+            "childId": item.childId
+        ]
+        
+        _ = try await db.collection("AccidentalExposure").addDocument(data: itemMap)
+    }
+    
+    func fetchAccidentalExposureForCurrentChild() async throws -> [AccidentalExposureItem] {
+        guard let childId = getCurrentChildId() else {
+            return []
+        }
+        
+        let snapshot = try await db.collection("AccidentalExposure")
+            .whereField("childId", isEqualTo: childId)
+            .getDocuments()
+        
+        return snapshot.documents.map { doc in
+            AccidentalExposureItem(
+                id: doc.documentID,
+                itemName: doc.get("itemName") as? String ?? "No Name",
+                description: doc.get("description") as? String ?? "",
+                date: doc.get("date") as? String ?? "",
+                childId: doc.get("childId") as? String ?? ""
+            )
+        }
+    }
+    
+    // MARK: - Medications
+
+    func fetchMedications() async throws -> [MedicationItem] {
+        let childId = getCurrentChildId()
+        
+        let snapshot = try await db.collection("Medications")
+            .whereField("childId", isEqualTo: childId ?? "")
+            .getDocuments()
+        
+        return snapshot.documents.map { doc in
+            MedicationItem(
+                id: doc.documentID,
+                medName: doc.get("medName") as? String ?? "",
+                dosage: doc.get("dosage") as? String ?? "",
+                startDate: doc.get("startDate") as? String ?? "",
+                endDate: doc.get("endDate") as? String ?? "",
+                frequency: doc.get("frequency") as? String ?? "",
+                discontinue: doc.get("discontinue") as? Bool ?? false,
+                notes: doc.get("notes") as? String ?? "",
+                childId: doc.get("childId") as? String ?? ""
+            )
+        }
+    }
+
+    func addMedication(_ med: MedicationItem) async throws {
+        var data: [String: Any] = [
+            "medName": med.medName,
+            "dosage": med.dosage,
+            "startDate": med.startDate,
+            "endDate": med.endDate,
+            "frequency": med.frequency,
+            "discontinue": med.discontinue,
+            "notes": med.notes,
+            "childId": med.childId
+        ]
+        
+        try await db.collection("Medications").addDocument(data: data)
+    }
+
+    func updateMedication(_ med: MedicationItem) async throws {
+        guard let id = med.id else { return }
+        
+        let data: [String: Any] = [
+            "medName": med.medName,
+            "dosage": med.dosage,
+            "startDate": med.startDate,
+            "endDate": med.endDate,
+            "frequency": med.frequency,
+            "discontinue": med.discontinue,
+            "notes": med.notes,
+            "childId": med.childId
+        ]
+        
+        try await db.collection("Medications").document(id).setData(data)
+    }
 }
 
 enum DBServiceError: LocalizedError {
@@ -282,6 +457,7 @@ enum DBServiceError: LocalizedError {
     case userDocumentNotFound
     case caregiverNotFound
     case childNotFound
+    case allergenNotFound
     
     var errorDescription: String? {
         switch self {
@@ -293,6 +469,8 @@ enum DBServiceError: LocalizedError {
             return "Caregiver not found."
         case .childNotFound:
             return "Child not found."
+        case .allergenNotFound:
+            return "Allergen not found."
         }
     }
 }
