@@ -9,44 +9,11 @@ import Foundation
 
 final class Diet1ViewModel {
     
-    let diet: DietPageModel = DietPageModel(
-        title: "Diet 1",
+    let diet = DietPageModel(
+        title: "Diet 2",
         subtitle: "Foods to Avoid",
         sections: [
-            DietFoodSection(
-                title: "Dairy",
-                foods: [
-                    "Baked goods",
-                    "Butter",
-                    "Buttermilk",
-                    "Casein",
-                    "Cheese",
-                    "Chocolate",
-                    "Condensed milk",
-                    "Cottage cheese",
-                    "Cream",
-                    "Cream cheese",
-                    "Curd",
-                    "Custard",
-                    "Evaporated milk",
-                    "Ghee",
-                    "Goat’s milk",
-                    "Gravy",
-                    "Half & half",
-                    "Ice cream",
-                    "Lactose",
-                    "Margarine",
-                    "Milk",
-                    "Milk powder",
-                    "Pastries",
-                    "Pudding",
-                    "Salad dressing",
-                    "Sheep’s milk",
-                    "Sour cream",
-                    "Whey",
-                    "Yogurt"
-                ]
-            )
+            DietFoodSection(title: "Dairy", foods: DietFoodLibrary.dairy),
         ]
     )
 }
