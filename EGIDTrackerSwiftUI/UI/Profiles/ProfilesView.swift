@@ -129,3 +129,6 @@ struct ProfilesView: View {
         .cornerRadius(10)
     }
 }
+#Preview {
+    ProfilesView()
+}
