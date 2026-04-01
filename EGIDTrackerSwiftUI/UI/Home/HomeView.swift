@@ -21,6 +21,32 @@ struct HomeView: View {
                 VStack(spacing: 25) {
                     
                     VStack(spacing: 10) {
+                        
+                        // Top Row (Journal + Logout)
+                        HStack {
+                            NavigationLink {
+                                JournalView()
+                            } label: {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "book")
+                                        .font(.title3)
+                                    Text("Journal")
+                                        .font(.subheadline).bold()
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(Color(.secondarySystemBackground))
+                                .cornerRadius(25)
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Spacer()
+                            
+                            Button("Log Out", role: .destructive) {
+                                viewModel.logOut()
+                            }
+                        }
+                        
                         Text("Home")
                             .font(.title2.bold())
                             .bold()
@@ -63,16 +89,16 @@ struct HomeView: View {
                     }
                     
                     LazyVGrid(columns: columns, spacing: 12) {
-                        NavigationLink(destination: Text("Food Tracker")) {
+                        NavigationLink(destination: FoodTrackerView()) {
                             GridButton(title: "Food Tracker", icon: "fork.knife")
                         }
-                        NavigationLink(destination: Text("Symptom Score")) {
+                        NavigationLink(destination: SymptomCheckerView()) {
                             GridButton(title: "Symptom Score", icon: "thermometer")
                         }
                         NavigationLink(destination: PlanView()) {
                             GridButton(title: "Your Plan", icon: "doc.text.fill")
                         }
-                        NavigationLink(destination: Text("Quality of Life Checker")) {               GridButton(title: "Quality of Life", icon: "heart.fill")
+                        NavigationLink(destination: QoLView()) {               GridButton(title: "Quality of Life", icon: "heart.fill")
                         }
                     }
                     .buttonStyle(.plain)
@@ -91,9 +117,6 @@ struct HomeView: View {
                     
                     Spacer(minLength: 2)
 
-                    Button("Log Out", role: .destructive) {
-                        viewModel.logOut()
-                    }
                     NavigationLink(destination: SignInView(), isActive: $goToSignIn) {
                         EmptyView()
                     }
