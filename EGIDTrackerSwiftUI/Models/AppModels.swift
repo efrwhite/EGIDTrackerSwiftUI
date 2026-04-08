@@ -58,11 +58,55 @@ struct MedicationItem {
 }
 
 struct StoredDocument: Identifiable, Codable {
-    var id: UUID
-    var childId: String
-    var name: String
-    var filePath: String
-    var type: String
-    var size: Int64
+    let id: UUID
+    let childId: String
+    var displayName: String
+    let storedFileName: String
+    let originalExtension: String
+    let type: String
+    let size: Int64
+    let date: Date
+}
+
+struct EndoscopyResult: Identifiable {
+    var id: String
+    var totalScore: Int
+    var proximate: Int?
+    var middle: Int?
+    var lower: Int?
+    var stomach: Int?
+    var duodenum: Int?
+    var rightColon: Int?
+    var middleColon: Int?
+    var leftColon: Int?
     var date: Date
+    var notes: String
+}
+
+struct SymptomScoreResult: Identifiable {
+    var id: String
+    var totalScore: Int
+    var responses: [String]
+    var symptomDescriptions: [String]
+    var date: Date
+}
+
+struct ScoreResultRow: Identifiable {
+    var id: String
+    var totalScore: Int
+    var date: Date
+}
+
+struct QoLScoreResult: Identifiable {
+    var id: String
+    var totalScore: Int
+    var responses: [Int]
+    var date: Date
+}
+
+struct FoodEntry: Identifiable {
+    var id: String
+    var foodName: String
+    var notes: String
+    var date: String // yyyy-MM-dd
 }

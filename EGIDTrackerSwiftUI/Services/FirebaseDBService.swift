@@ -450,6 +450,302 @@ final class FirebaseDBService {
         
         try await db.collection("Medications").document(id).setData(data)
     }
+    
+    // MARK: - Endoscopy
+    
+    func fetchEndoscopyResults(
+        childId: String,
+        startDate: Date? = nil,
+        endDate: Date? = nil
+    ) async throws -> [EndoscopyResult] {
+        
+        var query: Query = db.collection("Children")
+            .document(childId)
+            .collection("EndoscopyResults")
+            .order(by: "date", descending: false)
+        
+        if let startDate {
+            query = query.whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+        }
+        
+        if let endDate {
+            query = query.whereField("date", isLessThanOrEqualTo: Timestamp(date: endDate))
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        return snapshot.documents.compactMap { doc in
+            guard let timestamp = doc.get("date") as? Timestamp else { return nil }
+            
+            return EndoscopyResult(
+                id: doc.documentID,
+                totalScore: doc.get("totalScore") as? Int ?? Int(doc.get("totalScore") as? Int64 ?? 0),
+                proximate: doc.get("proximate") as? Int ?? (doc.get("proximate") as? Int64).map(Int.init),
+                middle: doc.get("middle") as? Int ?? (doc.get("middle") as? Int64).map(Int.init),
+                lower: doc.get("lower") as? Int ?? (doc.get("lower") as? Int64).map(Int.init),
+                stomach: doc.get("stomach") as? Int ?? (doc.get("stomach") as? Int64).map(Int.init),
+                duodenum: doc.get("duodenum") as? Int ?? (doc.get("duodenum") as? Int64).map(Int.init),
+                rightColon: doc.get("rightColon") as? Int ?? (doc.get("rightColon") as? Int64).map(Int.init),
+                middleColon: doc.get("middleColon") as? Int ?? (doc.get("middleColon") as? Int64).map(Int.init),
+                leftColon: doc.get("leftColon") as? Int ?? (doc.get("leftColon") as? Int64).map(Int.init),
+                date: timestamp.dateValue(),
+                notes: doc.get("notes") as? String ?? ""
+            )
+        }
+    }
+    
+    func saveEndoscopyResult(
+        childId: String,
+        result: EndoscopyResult,
+        isEditing: Bool
+    ) async throws {
+        
+        let data: [String: Any] = [
+            "totalScore": result.totalScore,
+            "proximate": result.proximate as Any,
+            "middle": result.middle as Any,
+            "lower": result.lower as Any,
+            "stomach": result.stomach as Any,
+            "duodenum": result.duodenum as Any,
+            "rightColon": result.rightColon as Any,
+            "middleColon": result.middleColon as Any,
+            "leftColon": result.leftColon as Any,
+            "date": Timestamp(date: result.date),
+            "notes": result.notes
+        ]
+        
+        let collection = db.collection("Children")
+            .document(childId)
+            .collection("EndoscopyResults")
+        
+        if isEditing {
+            try await collection.document(result.id).setData(data, merge: false)
+        } else {
+            _ = try await collection.addDocument(data: data)
+        }
+    }
+    
+    func fetchSingleEndoscopyResult(childId: String, reportId: String) async throws -> EndoscopyResult {
+        let doc = try await db.collection("Children")
+            .document(childId)
+            .collection("EndoscopyResults")
+            .document(reportId)
+            .getDocument()
+        
+        guard let timestamp = doc.get("date") as? Timestamp else {
+            throw DBServiceError.documentNotFound
+        }
+        
+        return EndoscopyResult(
+            id: doc.documentID,
+            totalScore: doc.get("totalScore") as? Int ?? Int(doc.get("totalScore") as? Int64 ?? 0),
+            proximate: doc.get("proximate") as? Int ?? (doc.get("proximate") as? Int64).map(Int.init),
+            middle: doc.get("middle") as? Int ?? (doc.get("middle") as? Int64).map(Int.init),
+            lower: doc.get("lower") as? Int ?? (doc.get("lower") as? Int64).map(Int.init),
+            stomach: doc.get("stomach") as? Int ?? (doc.get("stomach") as? Int64).map(Int.init),
+            duodenum: doc.get("duodenum") as? Int ?? (doc.get("duodenum") as? Int64).map(Int.init),
+            rightColon: doc.get("rightColon") as? Int ?? (doc.get("rightColon") as? Int64).map(Int.init),
+            middleColon: doc.get("middleColon") as? Int ?? (doc.get("middleColon") as? Int64).map(Int.init),
+            leftColon: doc.get("leftColon") as? Int ?? (doc.get("leftColon") as? Int64).map(Int.init),
+            date: timestamp.dateValue(),
+            notes: doc.get("notes") as? String ?? ""
+        )
+    }
+    
+    // MARK: - Symptom Scores
+    
+    func saveSymptomScore(
+        childId: String,
+        totalScore: Int,
+        responses: [String],
+        symptomDescriptions: [String],
+        date: Date
+    ) async throws {
+        
+        let data: [String: Any] = [
+            "totalScore": totalScore,
+            "responses": responses,
+            "symptomDescriptions": symptomDescriptions,
+            "date": Timestamp(date: date)
+        ]
+        
+        _ = try await db.collection("Children")
+            .document(childId)
+            .collection("Symptom Scores")
+            .addDocument(data: data)
+    }
+    
+    func fetchSymptomScores(
+        childId: String,
+        startDate: Date? = nil,
+        endDate: Date? = nil
+    ) async throws -> [SymptomScoreResult] {
+        
+        var query: Query = db.collection("Children")
+            .document(childId)
+            .collection("Symptom Scores")
+            .order(by: "date", descending: false)
+        
+        if let startDate {
+            query = query.whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+        }
+        
+        if let endDate {
+            query = query.whereField("date", isLessThanOrEqualTo: Timestamp(date: endDate))
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        return snapshot.documents.compactMap { doc in
+            guard let timestamp = doc.get("date") as? Timestamp else { return nil }
+            
+            return SymptomScoreResult(
+                id: doc.documentID,
+                totalScore: doc.get("totalScore") as? Int ?? Int(doc.get("totalScore") as? Int64 ?? 0),
+                responses: doc.get("responses") as? [String] ?? [],
+                symptomDescriptions: doc.get("symptomDescriptions") as? [String] ?? [],
+                date: timestamp.dateValue()
+            )
+        }
+    }
+    
+    func fetchSymptomScoreRows(
+        childId: String,
+        startDate: Date? = nil,
+        endDate: Date? = nil
+    ) async throws -> [ScoreResultRow] {
+        
+        var query: Query = db.collection("Children")
+            .document(childId)
+            .collection("Symptom Scores")
+            .order(by: "date", descending: false)
+        
+        if let startDate {
+            query = query.whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+        }
+        
+        if let endDate {
+            query = query.whereField("date", isLessThanOrEqualTo: Timestamp(date: endDate))
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        return snapshot.documents.compactMap { doc in
+            guard let timestamp = doc.get("date") as? Timestamp else { return nil }
+            
+            return ScoreResultRow(
+                id: doc.documentID,
+                totalScore: doc.get("totalScore") as? Int ?? Int(doc.get("totalScore") as? Int64 ?? 0),
+                date: timestamp.dateValue()
+            )
+        }
+    }
+    
+    // MARK: - Quality of Life Scores
+    
+    func saveQoLScore(
+        childId: String,
+        totalScore: Int,
+        responses: [Int],
+        date: Date
+    ) async throws {
+        
+        let data: [String: Any] = [
+            "totalScore": totalScore,
+            "responses": responses,
+            "date": Timestamp(date: date)
+        ]
+        
+        _ = try await db.collection("Children")
+            .document(childId)
+            .collection("Quality of Life Scores")
+            .addDocument(data: data)
+    }
+    
+    func fetchQoLScoreRows(
+        childId: String,
+        startDate: Date? = nil,
+        endDate: Date? = nil
+    ) async throws -> [ScoreResultRow] {
+        
+        var query: Query = db.collection("Children")
+            .document(childId)
+            .collection("Quality of Life Scores")
+            .order(by: "date", descending: false)
+        
+        if let startDate {
+            query = query.whereField("date", isGreaterThanOrEqualTo: Timestamp(date: startDate))
+        }
+        
+        if let endDate {
+            query = query.whereField("date", isLessThanOrEqualTo: Timestamp(date: endDate))
+        }
+        
+        let snapshot = try await query.getDocuments()
+        
+        return snapshot.documents.compactMap { doc in
+            guard let timestamp = doc.get("date") as? Timestamp else { return nil }
+            
+            return ScoreResultRow(
+                id: doc.documentID,
+                totalScore: doc.get("totalScore") as? Int ?? Int(doc.get("totalScore") as? Int64 ?? 0),
+                date: timestamp.dateValue()
+            )
+        }
+    }
+    
+    // MARK: - Food Entries
+
+    func fetchFoodEntries(childId: String) async throws -> [FoodEntry] {
+        let snapshot = try await db.collection("FoodEntries")
+            .document(childId)
+            .collection("Entries")
+            .getDocuments()
+        
+        return snapshot.documents.map { doc in
+            FoodEntry(
+                id: doc.documentID,
+                foodName: doc.get("foodName") as? String ?? "Unknown Food",
+                notes: doc.get("notes") as? String ?? "",
+                date: doc.get("date") as? String ?? ""
+            )
+        }
+    }
+
+    func addFoodEntry(childId: String, entry: FoodEntry) async throws {
+        let data: [String: Any] = [
+            "foodName": entry.foodName,
+            "notes": entry.notes,
+            "date": entry.date
+        ]
+        
+        _ = try await db.collection("FoodEntries")
+            .document(childId)
+            .collection("Entries")
+            .addDocument(data: data)
+    }
+
+    func updateFoodEntry(childId: String, entry: FoodEntry) async throws {
+        let data: [String: Any] = [
+            "foodName": entry.foodName,
+            "notes": entry.notes,
+            "date": entry.date
+        ]
+        
+        try await db.collection("FoodEntries")
+            .document(childId)
+            .collection("Entries")
+            .document(entry.id)
+            .setData(data)
+    }
+
+    func deleteFoodEntry(childId: String, entryId: String) async throws {
+        try await db.collection("FoodEntries")
+            .document(childId)
+            .collection("Entries")
+            .document(entryId)
+            .delete()
+    }
 }
 
 enum DBServiceError: LocalizedError {
@@ -458,6 +754,7 @@ enum DBServiceError: LocalizedError {
     case caregiverNotFound
     case childNotFound
     case allergenNotFound
+    case documentNotFound
     
     var errorDescription: String? {
         switch self {
@@ -471,6 +768,8 @@ enum DBServiceError: LocalizedError {
             return "Child not found."
         case .allergenNotFound:
             return "Allergen not found."
+        case .documentNotFound:
+            return "Document not found."
         }
     }
 }
