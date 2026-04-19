@@ -1,5 +1,5 @@
 //
-//  TextFieldStyle.swift
+//  AuthFieldStyle.swift
 //  EGID Tracker
 //
 //  Created by dafni on 3/20/26.

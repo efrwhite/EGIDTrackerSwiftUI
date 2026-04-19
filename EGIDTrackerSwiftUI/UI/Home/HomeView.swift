@@ -12,17 +12,13 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var goToSignIn = false
     
-    // Grid settings: 2 columns
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 25) {
-                
                     VStack(spacing: 10) {
-                        
-                        // Top Row (Journal + Logout)
                         HStack {
                             NavigationLink {
                                 JournalView()
@@ -49,7 +45,6 @@ struct HomeView: View {
                         
                         Text("Home")
                             .font(.title2.bold())
-                            .bold()
                         
                         Group {
                             if viewModel.childImageUrl.isEmpty {
@@ -82,13 +77,12 @@ struct HomeView: View {
                         if viewModel.isLoading { ProgressView() }
                         
                         if let error = viewModel.errorMessage {
-                            Text(error)
-                                .foregroundColor(.red)
+                            Text(error).foregroundColor(.red)
                         }
                     }
+                    .padding(.horizontal)
                     
-                    LazyVGrid(columns: columns, spacing: 9) {
-                        NavigationLink(destination: Text("Food Tracker")) {
+                    // Grid Section
                     LazyVGrid(columns: columns, spacing: 12) {
                         NavigationLink(destination: FoodTrackerView()) {
                             GridButton(title: "Food Tracker", icon: "fork.knife")
@@ -99,14 +93,14 @@ struct HomeView: View {
                         NavigationLink(destination: PlanView()) {
                             GridButton(title: "Your Plan", icon: "doc.text.fill")
                         }
-                        NavigationLink(destination: Text("Quality of Life Checker")) {
+                        NavigationLink(destination: QoLView()) {
                             GridButton(title: "Quality of Life", icon: "heart.fill")
-                        NavigationLink(destination: QoLView()) {               GridButton(title: "Quality of Life", icon: "heart.fill")
                         }
                     }
                     .buttonStyle(.plain)
                     .padding(.horizontal, 20)
                     
+                    // List Section
                     VStack(spacing: 12) {
                         NavigationLink(destination: Text("EGID Education")) {
                             ListRow(title: "EGID Education", icon: "book.circle.fill")
@@ -116,74 +110,67 @@ struct HomeView: View {
                         }
                     }
                     .buttonStyle(.plain)
-                    .padding(.horizontal,20)
+                    .padding(.horizontal, 20)
                     
-                    Button("Log Out", role: .destructive) {
-                        viewModel.logOut()
-                    }
-                    Spacer(minLength: 2)
-
+                    // Hidden Navigation Trigger
                     NavigationLink(destination: SignInView(), isActive: $goToSignIn) {
                         EmptyView()
                     }
                 }
-                .padding()
+                .padding(.vertical)
             }
             .task {
                 await viewModel.loadHomeData()
             }
             .navigationBarBackButtonHidden(true)
-            .onChange(of: viewModel.didLogOut) { _, didLogOut in
-                if didLogOut { goToSignIn = true }
+        }
+    }
+}
+            
+            struct GridButton: View {
+                let title: String
+                let icon: String
+                
+                var body: some View {
+                    VStack(alignment: .leading) {
+                        Image(systemName: icon)
+                            .font(.system(size: 40))
+                            .frame(width: 42, height: 42, alignment: .leading)
+                            .padding(.top,17)
+                        Spacer(minLength: 5)
+                        Text(title)
+                            .font(.system(size: 18))
+                            .bold()
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom,15)
+                    }
+                    .padding(.horizontal,20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(height: 140)
+                    .background(Color("PrimaryColor").opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
             }
-        }
-    }
-}
-
-struct GridButton: View {
-    let title: String
-    let icon: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Image(systemName: icon)
-                .font(.system(size: 40))
-                .frame(width: 42, height: 42, alignment: .leading)
-                .padding(.top,17)
-            Spacer(minLength: 5)
-            Text(title)
-                .font(.system(size: 18))
-                .bold()
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom,15)
-        }
-        .padding(.horizontal,14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(height: 140)
-        .background(Color("PrimaryColor").opacity(0.8))
-        .foregroundColor(.white)
-        .cornerRadius(12)
-    }
-}
-
-struct ListRow: View {
-    let title: String
-    let icon: String
-    var body: some View {
-        HStack {
-            Image(systemName: icon)
-                .font(.system(size: 30))
-                .foregroundColor(Color("PrimaryColor").opacity(0.8))
-            Text(title)
-                .font(.system(size: 16))
-                .foregroundColor(.primary)
-            Spacer()
-            Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color("PrimaryColor"))
-        }
-        .padding(.horizontal,15)
-        .padding(.vertical,10)
-        .background(Color("PrimaryColor").opacity(0.05))
-        .cornerRadius(15)
+            
+            struct ListRow: View {
+                let title: String
+                let icon: String
+                var body: some View {
+                    HStack {
+                        Image(systemName: icon)
+                            .font(.system(size: 30))
+                            .foregroundColor(Color("PrimaryColor").opacity(0.8))
+                        Text(title)
+                            .font(.system(size: 16))
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color("PrimaryColor"))
+                    }
+                    .padding(.horizontal,15)
+                    .padding(.vertical,10)
+                    .background(Color("PrimaryColor").opacity(0.05))
+                    .cornerRadius(15)
     }
 }
 #Preview {
