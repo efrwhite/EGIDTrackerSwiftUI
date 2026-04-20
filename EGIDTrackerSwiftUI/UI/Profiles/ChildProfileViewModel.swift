@@ -16,6 +16,9 @@ final class ChildProfileViewModel: ObservableObject {
     @Published var firstName: String = ""
     @Published var lastName: String = ""
     @Published var birthDate: Date = Date()
+    @Published var month = ""
+    @Published var day = ""
+    @Published var year = ""
     @Published var gender: String = AppConstants.genderOptions.first ?? "Male"
     @Published var diet: String = AppConstants.defaultDiet
     
@@ -58,6 +61,25 @@ final class ChildProfileViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+    
+    func formatBirthDate(_ newValue: String) {
+            let filtered = newValue.filter { "0123456789".contains($0) }
+            
+            var result = ""
+            for (index, char) in filtered.enumerated() {
+                if index == 2 || index == 4 {
+                    result.append("/")
+                }
+                if index < 8 { // Max length MMDDYYYY
+                    result.append(char)
+                }
+            }
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            if let date = formatter.date(from: result) {
+                self.birthDate = date
+            }
+        }
     
     func setPickedImage(_ image: UIImage?, imagePath: String = "") {
         self.selectedImage = image
