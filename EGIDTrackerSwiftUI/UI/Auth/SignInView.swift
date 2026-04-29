@@ -11,6 +11,7 @@ struct SignInView: View {
     
     @StateObject private var viewModel = SignInViewModel()
     @State private var goToHome = false
+    @State private var isSecure = true
 
     var body: some View {
         NavigationStack {
@@ -40,9 +41,10 @@ struct SignInView: View {
                         .autocorrectionDisabled(true)
                         .padding(.top, 40)
                     
-                    VectorIconField(icon: "lock.fill", placeholder: "Password", text: $viewModel.password)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
+                    VectorIconField(icon: "lock.fill", placeholder: "Password", text: $viewModel.password, isSecure: true
+                    )
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
 
                         if let error = viewModel.errorMessage {
                             Text(error).foregroundColor(.red)
