@@ -110,3 +110,20 @@ struct FoodEntry: Identifiable {
     var notes: String
     var date: String // yyyy-MM-dd
 }
+
+struct JournalEntry: Identifiable {
+    var id: String
+    var date: Date
+    var info: String
+    var category: JournalCategory
+}
+
+enum JournalCategory: String, CaseIterable, Identifiable {
+    case endoscopy = "Endoscopy"
+    case allergies = "Allergies"
+    case medication = "Medication"
+    case accidentalExposure = "Accidental Exposure"
+    case symptomScore = "Symptom Score"
+    case qualityOfLife = "Quality of Life"
+    var id: String { rawValue }
+}
