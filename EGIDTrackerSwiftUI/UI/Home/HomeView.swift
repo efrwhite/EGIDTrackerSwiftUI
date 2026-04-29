@@ -87,6 +87,8 @@ struct HomeView: View {
                                 .multilineTextAlignment(.center)
                         }
                     }
+                    .padding(.horizontal)
+                    
                     
                     LazyVGrid(columns: columns, spacing: 12) {
                         NavigationLink(destination: FoodTrackerView()) {
@@ -98,22 +100,23 @@ struct HomeView: View {
                         NavigationLink(destination: PlanView()) {
                             GridButton(title: "Your Plan", icon: "doc.text.fill")
                         }
-                        NavigationLink(destination: QoLView()) {               GridButton(title: "Quality of Life", icon: "heart.fill")
+                        NavigationLink(destination: QoLView()) {
+                            GridButton(title: "Quality of Life", icon: "heart.fill")
                         }
                     }
                     .buttonStyle(.plain)
-                    .padding(.horizontal, 28)
+                    .padding(.horizontal, 20)
                     
                     VStack(spacing: 12) {
                         NavigationLink(destination: Text("EGID Education")) {
-                            ListRow(title: "EGID Education", icon: "book.fill")
+                            ListRow(title: "EGID Education", icon: "book.circle.fill")
                         }
                         NavigationLink(destination: ProfilesView()) {
-                            ListRow(title: "Manage Profiles", icon: "person.2.fill")
+                            ListRow(title: "Manage Profiles", icon: "person.2.circle.fill")
                         }
                     }
                     .buttonStyle(.plain)
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
                     
                     Spacer(minLength: 2)
 
@@ -121,7 +124,7 @@ struct HomeView: View {
                         EmptyView()
                     }
                 }
-                .padding()
+                .padding(.vertical)
             }
             .task {
                 await viewModel.loadHomeData()
@@ -139,13 +142,23 @@ struct GridButton: View {
     let icon: String
     
     var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: icon).font(.title)
-            Text(title).font(.footnote).bold()
+        VStack(alignment: .leading) {
+            Image(systemName: icon)
+                .font(.system(size: 40))
+                .frame(width: 42, height: 42, alignment: .leading)
+                .padding(.top,17)
+            Spacer(minLength: 5)
+            Text(title)
+                .font(.system(size: 18))
+                .bold()
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.bottom,15)
         }
-        .frame(maxWidth: .infinity, minHeight: 120)
-        .background(Color("SecondaryColor").opacity(0.09))
-        .foregroundColor(Color("SecondaryColor"))
+        .padding(.horizontal,20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(height: 140)
+        .background(Color("PrimaryColor").opacity(0.8))
+        .foregroundColor(.white)
         .cornerRadius(12)
     }
 }
@@ -155,13 +168,18 @@ struct ListRow: View {
     let icon: String
     var body: some View {
         HStack {
-            Image(systemName: icon).foregroundColor(Color("SecondaryColor"))
-            Text(title).foregroundColor(.primary)
+            Image(systemName: icon)
+                .font(.system(size: 30))
+                .foregroundColor(Color("PrimaryColor").opacity(0.8))
+            Text(title)
+                .font(.system(size: 16))
+                .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color("SecondaryColor"))
+            Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color("PrimaryColor"))
         }
-        .padding()
-        .background(Color("SecondaryColor").opacity(0.09))
-        .cornerRadius(10)
+        .padding(.horizontal,15)
+        .padding(.vertical,10)
+        .background(Color("PrimaryColor").opacity(0.05))
+        .cornerRadius(15)
     }
 }
