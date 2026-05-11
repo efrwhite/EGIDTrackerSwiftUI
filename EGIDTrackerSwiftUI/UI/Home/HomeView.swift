@@ -108,8 +108,9 @@ struct HomeView: View {
                     .padding(.horizontal, 20)
                     
                     VStack(spacing: 12) {
-                        NavigationLink(destination: Text("EGID Education")) {
-                            ListRow(title: "EGID Education", icon: "book.circle.fill")
+                        NavigationLink(destination: EducationHomeView()) {
+                            ListRow(title: "EGID Education", icon: "book.fill")
+                   
                         }
                         NavigationLink(destination: ProfilesView()) {
                             ListRow(title: "Manage Profiles", icon: "person.2.circle.fill")
