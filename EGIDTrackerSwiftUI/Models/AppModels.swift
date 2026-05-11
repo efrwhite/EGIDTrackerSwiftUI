@@ -127,3 +127,10 @@ enum JournalCategory: String, CaseIterable, Identifiable {
     case qualityOfLife = "Quality of Life"
     var id: String { rawValue }
 }
+
+struct CustomResourceItem: Identifiable {
+    let id: String?
+    var title: String
+    var url: String
+    var userId: String
+}

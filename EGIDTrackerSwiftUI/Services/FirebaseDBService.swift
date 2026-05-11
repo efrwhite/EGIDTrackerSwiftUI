@@ -746,6 +746,54 @@ final class FirebaseDBService {
             .document(entryId)
             .delete()
     }
+    
+    // MARK: - Custom Resources
+
+    func fetchCustomResourcesForCurrentUser() async throws -> [CustomResourceItem] {
+        let uid = try currentUID()
+        
+        let snapshot = try await db.collection("CustomResources")
+            .whereField("userId", isEqualTo: uid)
+            .getDocuments()
+        
+        return snapshot.documents.map { doc in
+            CustomResourceItem(
+                id: doc.documentID,
+                title: doc.get("title") as? String ?? "No Title",
+                url: doc.get("url") as? String ?? "",
+                userId: doc.get("userId") as? String ?? uid
+            )
+        }
+        .sorted { $0.title.lowercased() < $1.title.lowercased() }
+    }
+
+    func addCustomResource(title: String, url: String) async throws {
+        let uid = try currentUID()
+        
+        let data: [String: Any] = [
+            "title": title,
+            "url": url,
+            "userId": uid
+        ]
+        
+        _ = try await db.collection("CustomResources").addDocument(data: data)
+    }
+
+    func updateCustomResource(_ resource: CustomResourceItem) async throws {
+        guard let id = resource.id else { return }
+        
+        let data: [String: Any] = [
+            "title": resource.title,
+            "url": resource.url,
+            "userId": resource.userId
+        ]
+        
+        try await db.collection("CustomResources").document(id).setData(data)
+    }
+
+    func deleteCustomResource(resourceId: String) async throws {
+        try await db.collection("CustomResources").document(resourceId).delete()
+    }
 }
 
 enum DBServiceError: LocalizedError {
