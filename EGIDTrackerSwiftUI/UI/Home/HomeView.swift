@@ -184,3 +184,6 @@ struct ListRow: View {
         .cornerRadius(15)
     }
 }
+#Preview {
+    HomeView()
+}
