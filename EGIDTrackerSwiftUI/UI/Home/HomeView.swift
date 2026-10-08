@@ -19,7 +19,13 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 25) {
-                    
+
+                    Image("EGID Tracker")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 20)
+
                     VStack(spacing: 10) {
                         
                         // Top Row (Journal + Logout)
@@ -158,8 +164,8 @@ struct GridButton: View {
         .padding(.horizontal,20)
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: 140)
-        .background(Color("PrimaryColor").opacity(0.8))
-        .foregroundColor(.white)
+        .background(Color.egidPurple)
+        .foregroundColor(Color.egidBackground)
         .cornerRadius(12)
     }
 }
@@ -171,17 +177,39 @@ struct ListRow: View {
         HStack {
             Image(systemName: icon)
                 .font(.system(size: 30))
-                .foregroundColor(Color("PrimaryColor").opacity(0.8))
+                .foregroundColor(Color.egidPurple)
             Text(title)
                 .font(.system(size: 16))
                 .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color("PrimaryColor"))
+            Image(systemName: "chevron.right").font(.caption).foregroundStyle(Color.egidPurple)
         }
         .padding(.horizontal,15)
         .padding(.vertical,10)
-        .background(Color("PrimaryColor").opacity(0.05))
+        .background(Color.egidLightPurple.opacity(0.22))
         .cornerRadius(15)
+    }
+}
+
+extension Color {
+    static let egidPurple = Color(hex: "5B3A82")
+    static let egidDarkPurple = Color(hex: "3D2557")
+    static let egidLightPurple = Color(hex: "C9B6E4")
+    static let egidBackground = Color(hex: "FBF8FF")
+    static let egidCoral = Color(hex: "FF8F70")
+    static let egidDarkCoral = Color(hex: "D96545")
+    static let egidDarkText = Color(hex: "2D2438")
+
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+
+        let red = Double((int >> 16) & 0xFF) / 255
+        let green = Double((int >> 8) & 0xFF) / 255
+        let blue = Double(int & 0xFF) / 255
+
+        self.init(red: red, green: green, blue: blue)
     }
 }
 #Preview {
