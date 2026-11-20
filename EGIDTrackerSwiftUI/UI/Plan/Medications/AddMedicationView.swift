@@ -5,14 +5,18 @@
 //  Created by lauren viado on 3/26/26.
 //
 
+
 import SwiftUI
 
 struct AddMedicationView: View {
-    
+
     @StateObject private var viewModel: AddMedicationViewModel
     @Environment(\.dismiss) private var dismiss
-    
-    init(medication: MedicationItem? = nil, isViewOnly: Bool = false) {
+
+    init(
+        medication: MedicationItem? = nil,
+        isViewOnly: Bool = false
+    ) {
         _viewModel = StateObject(
             wrappedValue: AddMedicationViewModel(
                 medication: medication,
@@ -20,101 +24,115 @@ struct AddMedicationView: View {
             )
         )
     }
-    
+
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                
+            VStack(alignment: .leading, spacing: 20) {
+
                 Text(viewModel.titleText)
                     .font(.title2)
-                    .bold()
-                
+                    .fontWeight(.bold)
+                    .foregroundColor(MedicationTheme.purple)
+                    .frame(maxWidth: .infinity, alignment: .center)
+
                 Group {
-                    TextField("Medication Name", text: $viewModel.medName)
-                    TextField("Dosage", text: $viewModel.dosage)
-                    TextField("Frequency", text: $viewModel.frequency)
-                }
-                .textFieldStyle(.roundedBorder)
-                .disabled(viewModel.isViewOnly)
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Start Date")
-                        .font(.headline)
-                    DatePicker(
-                        "",
-                        selection: $viewModel.startDate,
-                        displayedComponents: .date
+                    medicationField(
+                        title: "Medication Name",
+                        placeholder: "Enter medication name",
+                        text: $viewModel.medName
                     )
-                    .labelsHidden()
-                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    medicationField(
+                        title: "Dosage",
+                        placeholder: "Enter dosage",
+                        text: $viewModel.dosage
+                    )
+
+                    medicationField(
+                        title: "Frequency",
+                        placeholder: "Enter frequency",
+                        text: $viewModel.frequency
+                    )
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
                 .disabled(viewModel.isViewOnly)
-                
+
+                dateSection(
+                    title: "Start Date",
+                    date: $viewModel.startDate
+                )
+                .disabled(viewModel.isViewOnly)
+
                 Toggle("Discontinued", isOn: $viewModel.discontinue)
+                    .tint(MedicationTheme.purple)
                     .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(10)
+                    .background(MedicationTheme.lightLavender)
+                    .cornerRadius(12)
                     .disabled(viewModel.isViewOnly)
-                
+
                 if viewModel.discontinue {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Discontinued Date")
-                            .font(.headline)
-                        DatePicker(
-                            "",
-                            selection: $viewModel.discontinuedDate,
-                            displayedComponents: .date
-                        )
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(10)
+                    dateSection(
+                        title: "Discontinued Date",
+                        date: $viewModel.discontinuedDate
+                    )
                     .disabled(viewModel.isViewOnly)
                 }
-                
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Notes")
                         .font(.headline)
-                    
+                        .foregroundColor(MedicationTheme.purple)
+
                     TextEditor(text: $viewModel.notes)
-                        .frame(height: 140)
-                        .padding(6)
+                        .frame(minHeight: 130)
+                        .padding(8)
+                        .scrollContentBackground(.hidden)
+                        .background(Color.white)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray.opacity(0.3))
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(
+                                    Color.gray.opacity(0.3),
+                                    lineWidth: 1
+                                )
                         )
                 }
-                
+
                 Button {
                     Task {
                         await viewModel.save()
                     }
                 } label: {
-                    if viewModel.isLoading {
-                        ProgressView()
-                    } else {
-                        Text(viewModel.isViewOnly ? "Save Notes" : "Save")
-                            .bold()
-                            .frame(maxWidth: .infinity)
+                    HStack {
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Text(
+                                viewModel.isViewOnly
+                                ? "Save Notes"
+                                : "Save Medication"
+                            )
+                            .fontWeight(.bold)
+                        }
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(MedicationTheme.coral)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
                 }
-                .buttonStyle(.borderedProminent)
-                
+                .disabled(viewModel.isLoading)
+
                 if let error = viewModel.errorMessage {
                     Text(error)
+                        .font(.subheadline)
                         .foregroundColor(.red)
                         .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
                 }
             }
             .padding()
         }
+        .background(Color.white.ignoresSafeArea())
         .navigationTitle("Medication")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: viewModel.saveSucceeded) { succeeded in
@@ -122,5 +140,53 @@ struct AddMedicationView: View {
                 dismiss()
             }
         }
+        .preferredColorScheme(.light)
+    }
+
+    private func medicationField(
+        title: String,
+        placeholder: String,
+        text: Binding<String>
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(MedicationTheme.purple)
+
+            TextField(placeholder, text: text)
+                .padding()
+                .background(MedicationTheme.lightLavender)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(
+                            Color.gray.opacity(0.2),
+                            lineWidth: 1
+                        )
+                )
+        }
+    }
+
+    private func dateSection(
+        title: String,
+        date: Binding<Date>
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(MedicationTheme.purple)
+
+            DatePicker(
+                "",
+                selection: date,
+                displayedComponents: .date
+            )
+            .labelsHidden()
+            .tint(MedicationTheme.purple)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding()
+        .background(MedicationTheme.lightLavender)
+        .cornerRadius(12)
     }
 }
