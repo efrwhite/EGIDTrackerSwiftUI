@@ -6,6 +6,8 @@
 //
 //  Use this service for signup/login/logout
 
+
+
 import Combine
 import Foundation
 import FirebaseAuth
@@ -14,64 +16,91 @@ import FirebaseFirestore
 @MainActor
 final class FirebaseAuthService: ObservableObject {
 
-    // Published so SwiftUI can react to login state
     @Published private(set) var user: User?
     @Published private(set) var currentUsername: String?
 
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
-
     private let appPrefsKey = "AppPreferences_CurrentUsername"
 
     init() {
         self.user = auth.currentUser
-        self.currentUsername = UserDefaults.standard.string(forKey: appPrefsKey)
+        self.currentUsername = UserDefaults.standard.string(
+            forKey: appPrefsKey
+        )
     }
 
-    // MARK: - Sign In (Username + Password)
+    // MARK: - Sign In
     func signIn(username: String, password: String) async throws {
-        let usernameTrim = username.trimmingCharacters(in: .whitespacesAndNewlines)
-        let passwordTrim = password.trimmingCharacters(in: .whitespacesAndNewlines)
+        let usernameTrim = username.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let passwordTrim = password.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
 
         guard !usernameTrim.isEmpty, !passwordTrim.isEmpty else {
             throw AuthServiceError.missingUsernameOrPassword
         }
 
-        // 1) Look up email by username (Users where username == input)
-        let snapshot = try await db.collection("Users")
-            .whereField("username", isEqualTo: usernameTrim)
-            .limit(to: 1)
-            .getDocuments()
+        // Look up the username using the public, exact-document lookup.
+        let snapshot = try await db.collection("Usernames")
+            .document(usernameTrim)
+            .getDocument()
 
-        guard let doc = snapshot.documents.first else {
+        guard let data = snapshot.data(),
+              let email = data["email"] as? String,
+              !email.isEmpty else {
             throw AuthServiceError.invalidUsernameOrPassword
         }
 
-        let email = doc.get("email") as? String
-        guard let email, !email.isEmpty else {
-            throw AuthServiceError.failedToRetrieveEmail
-        }
+        let result = try await auth.signIn(
+            withEmail: email,
+            password: passwordTrim
+        )
 
-        // 2) Sign in with email + password
-        let result = try await auth.signIn(withEmail: email, password: passwordTrim)
-
-        // 3) Save username locally (UserDefaults)
         saveUsername(usernameTrim)
-
-        // 4) Update published state
         self.user = result.user
         self.currentUsername = usernameTrim
     }
 
     // MARK: - Sign Up
-    func signUp(username: String, phone: String, email: String, password: String, confirmPassword: String) async throws {
-        let usernameTrim = username.trimmingCharacters(in: .whitespacesAndNewlines)
-        let phoneTrim = phone.trimmingCharacters(in: .whitespacesAndNewlines)
-        let emailTrim = email.trimmingCharacters(in: .whitespacesAndNewlines)
-        let passwordTrim = password.trimmingCharacters(in: .whitespacesAndNewlines)
-        let confirmTrim = confirmPassword.trimmingCharacters(in: .whitespacesAndNewlines)
+    func signUp(
+        firstName: String,
+        lastName: String,
+        username: String,
+        phone: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ) async throws {
 
-        guard !usernameTrim.isEmpty,
+        let firstNameTrim = firstName.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let lastNameTrim = lastName.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let usernameTrim = username.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let phoneTrim = phone.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let emailTrim = email.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let passwordTrim = password.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        let confirmTrim = confirmPassword.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        // 1. Validate required fields
+        guard !firstNameTrim.isEmpty,
+              !lastNameTrim.isEmpty,
+              !usernameTrim.isEmpty,
               !phoneTrim.isEmpty,
               !emailTrim.isEmpty,
               !passwordTrim.isEmpty,
@@ -79,6 +108,7 @@ final class FirebaseAuthService: ObservableObject {
             throw AuthServiceError.missingFields
         }
 
+        // 2. Validate passwords
         guard passwordTrim == confirmTrim else {
             throw AuthServiceError.passwordsDoNotMatch
         }
@@ -87,45 +117,66 @@ final class FirebaseAuthService: ObservableObject {
             throw AuthServiceError.passwordInvalid
         }
 
-        // 1) Check username uniqueness against Users
+        // 3. Check username availability
         let isUnique = try await checkUsernameUnique(usernameTrim)
+
         guard isUnique else {
             throw AuthServiceError.usernameTaken
         }
 
-        // 2) Create Auth user
-        let result = try await auth.createUser(withEmail: emailTrim, password: passwordTrim)
+        // 4. Create Firebase Authentication account
+        let result = try await auth.createUser(
+            withEmail: emailTrim,
+            password: passwordTrim
+        )
         let uid = result.user.uid
 
-        // 3) Save profile in Users/{uid}
+        // 5. Save the user's profile
         let userMap: [String: Any] = [
+            "firstName": firstNameTrim,
+            "lastName": lastNameTrim,
             "email": emailTrim,
             "username": usernameTrim,
             "phone": phoneTrim
         ]
 
-        try await db.collection("Users").document(uid).setData(userMap)
+        try await db.collection("Users")
+            .document(uid)
+            .setData(userMap)
 
-        // 4) Save username locally
+        // 6. Create the username-to-email lookup document.
+        // The Firestore rules permit creation only for the
+        // authenticated user's own UID and verified email.
+        guard let currentEmail = result.user.email,
+              result.user.isEmailVerified else {
+            throw AuthServiceError.emailVerificationRequired
+        }
+
+        let usernameMap: [String: Any] = [
+            "uid": uid,
+            "email": currentEmail
+        ]
+
+        try await db.collection("Usernames")
+            .document(usernameTrim)
+            .setData(usernameMap)
+
+        // 7. Save username locally and update state
         saveUsername(usernameTrim)
-
-        // 5) Update published state
         self.user = result.user
         self.currentUsername = usernameTrim
     }
 
     // MARK: - Logout
     func signOut() throws {
-        // Android clears child pref on logout; we’ll handle child selection in another service.
-        // For now: clear username and sign out.
-        clearUsername()
         try auth.signOut()
+        clearUsername()
 
         self.user = nil
         self.currentUsername = nil
     }
 
-    // MARK: - Username Prefs (UserDefaults)
+    // MARK: - Username Preferences
     private func saveUsername(_ username: String) {
         UserDefaults.standard.set(username, forKey: appPrefsKey)
     }
@@ -134,24 +185,28 @@ final class FirebaseAuthService: ObservableObject {
         UserDefaults.standard.removeObject(forKey: appPrefsKey)
     }
 
-    // Helpers
+    // MARK: - Helpers
     private func checkUsernameUnique(_ username: String) async throws -> Bool {
-        let snapshot = try await db.collection("Users")
-            .whereField("username", isEqualTo: username)
-            .limit(to: 1)
-            .getDocuments()
+        let snapshot = try await db.collection("Usernames")
+            .document(username)
+            .getDocument()
 
-        return snapshot.documents.isEmpty
+        return !snapshot.exists
     }
 
     private func isPasswordValid(_ password: String) -> Bool {
-        // "^(?=.*[A-Z])(?=.*[!@#\\$])[A-Za-z\\d!@#\\$]{7,}$"
-        let pattern = #"^(?=.*[A-Z])(?=.*[!@#\$])[A-Za-z\d!@#\$]{7,}$"#
-        return password.range(of: pattern, options: .regularExpression) != nil
+        // Requires at least 7 characters, an uppercase letter,
+        // and a special character from the allowed set.
+        let pattern = #"^(?=.*[A-Z])(?=.*[!@#$])[A-Za-z\d!@#$]{7,}$"#
+
+        return password.range(
+            of: pattern,
+            options: .regularExpression
+        ) != nil
     }
 }
 
-// Errors
+// MARK: - Errors
 enum AuthServiceError: LocalizedError {
     case missingUsernameOrPassword
     case invalidUsernameOrPassword
@@ -160,6 +215,7 @@ enum AuthServiceError: LocalizedError {
     case passwordsDoNotMatch
     case passwordInvalid
     case usernameTaken
+    case emailVerificationRequired
 
     var errorDescription: String? {
         switch self {
@@ -177,6 +233,10 @@ enum AuthServiceError: LocalizedError {
             return "Password does not meet the requirements."
         case .usernameTaken:
             return "Username is already taken. Please choose another."
+        case .emailVerificationRequired:
+            return "Please verify your email before completing registration."
         }
     }
 }
+
+

@@ -8,31 +8,29 @@
 import SwiftUI
 
 struct SymptomsView: View {
-    
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                
                 Text(EducationText.symptomsEoE)
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(Color("PrimaryColor"))
                     .multilineTextAlignment(.center)
                     .padding(.top, 8)
-                
+
                 Text(EducationText.eoeSymptoms)
                     .educationBodyStyle()
-                
+
                 Text(EducationText.eoeSymptoms2)
                     .educationBodyStyle()
-                
+
                 Spacer(minLength: 20)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
         }
         .background(Color("PrimaryBackground"))
-        .navigationTitle("")
+        .navigationTitle("What are the Symptoms?")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
