@@ -5,182 +5,255 @@
 //  Created by lauren viado on 3/31/26.
 //
 
+
 import SwiftUI
+import UIKit
 
 struct QoLView: View {
-    
     @StateObject private var viewModel = QoLViewModel()
+    @Environment(\.dismiss) private var dismiss
     @State private var goToResults = false
-    @State private var activeSectionIndex = 0
-    
+
+    private let purple = Color(red: 91.0 / 255.0, green: 58.0 / 255.0, blue: 130.0 / 255.0)
+    private let coral = Color(red: 255.0 / 255.0, green: 143.0 / 255.0, blue: 112.0 / 255.0)
+
     var body: some View {
         VStack(spacing: 0) {
             headerView
-            TabView(selection: $activeSectionIndex) {
-                ForEach(Array(viewModel.sectionedQuestions.enumerated()), id: \.offset) { sIndex, section in
-                    sectionPage(section: section, sIndex: sIndex)
-                        .tag(sIndex)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    frequencyLegend
+                    visitDateField
+
+                    ForEach(viewModel.sectionedQuestions.indices, id: \.self) { sectionIndex in
+                        sectionView(sectionIndex: sectionIndex)
+                    }
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 18)
+                .padding(.bottom, 30)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .background(Color.white)
+        }
+        .background(Color.white.ignoresSafeArea())
+        .safeAreaInset(edge: .bottom, spacing: 0) {
             footerView
         }
-        .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("Quality of Life")
-        .navigationBarTitleDisplayMode(.inline)
-        .onChange(of: viewModel.saveSucceeded) { succeeded in
-            if succeeded { goToResults = true }
-        }
-        .background(
-            NavigationLink(destination: ResultsView(source: .qol), isActive: $goToResults) {
+        .toolbar(.hidden, for: .navigationBar)
+        .preferredColorScheme(.light)
+        .background {
+            NavigationLink(
+                destination: ResultsView(source: .qol),
+                isActive: $goToResults
+            ) {
                 EmptyView()
             }
             .hidden()
-        )
-    }
-    private var headerView: some View {
-        VStack(spacing: 12) {
-            let total = viewModel.sectionedQuestions.count
-            let progress = Double(activeSectionIndex + 1) / Double(total)
-            
-            VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    Text("Section \(activeSectionIndex + 1) of \(total)")
-                        .font(.caption.bold())
-                        .foregroundColor(.secondary)
-                    Spacer()
-                    Text("\(Int(progress * 100))%")
-                        .font(.caption.bold())
-                        .foregroundColor(Color("SecondaryColor"))
-                }
-                ProgressView(value: progress)
-                    .tint(Color("SecondaryColor"))
-            }
-            
-            Divider()
-            HStack {
-                Text("Visit Date")
-                    .font(.headline)
-                Spacer()
-                DatePicker("", selection: $viewModel.visitDate, displayedComponents: .date)
-                    .labelsHidden()
+        }
+        .onChange(of: viewModel.saveSucceeded) { succeeded in
+            if succeeded {
+                goToResults = true
             }
         }
-        .padding()
-        .background(Color(.systemBackground))
     }
-    private func sectionPage(section: (title: String, questions: [String]), sIndex: Int) -> some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(section.title)
-                                    .font(.title2.bold())
-                                Text("0 = Never a problem, 4 = Almost always")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.top)
-                
-                ForEach(Array(section.questions.enumerated()), id: \.offset) { questionOffset, question in
-                    let currentIndex = viewModel.sectionedQuestions
-                        .prefix { $0.title != section.title }
-                        .flatMap { $0.questions }
-                        .count + questionOffset
-                    
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text(question)
-                            .font(.headline)
-                        HStack {
-                            ForEach(0...4, id: \.self) { score in
-                                scoreCircleButton(score: score, index: currentIndex)
-                                if score < 4 { Spacer() }
+
+    // MARK: - Header
+
+    private var headerView: some View {
+        HStack {
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(purple)
+                    .frame(width: 38, height: 38)
+                    .background(Color.white)
+                    .clipShape(Circle())
+            }
+
+            Spacer()
+
+            Text("Quality of life")
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundColor(.white)
+
+            Spacer()
+
+            Button {
+                goToResults = true
+            } label: {
+                Text("Results")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(coral)
+                    .underline()
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity)
+        .frame(height: 134, alignment: .bottom)
+        .background(purple)
+    }
+
+    // MARK: - Frequency Legend
+
+    private var frequencyLegend: some View {
+        Text("0: never    1: almost never    2: sometimes    3: often    4: almost always")
+            .font(.system(size: 14, weight: .bold))
+            .foregroundColor(purple)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 10)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+            .overlay {
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(purple, style: StrokeStyle(lineWidth: 1.3, dash: [2, 2]))
+            }
+    }
+
+    // MARK: - Visit Date
+
+    private var visitDateField: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            sectionLabel("Visit Date")
+
+            DatePicker(
+                "",
+                selection: $viewModel.visitDate,
+                displayedComponents: .date
+            )
+            .datePickerStyle(.compact)
+            .labelsHidden()
+            .tint(purple)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 14)
+            .frame(height: 58)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(purple, lineWidth: 1.3)
+            }
+        }
+    }
+
+    // MARK: - Question Sections
+
+    private func sectionView(sectionIndex: Int) -> some View {
+        let section = viewModel.sectionedQuestions[sectionIndex]
+        let startingQuestionIndex = viewModel.sectionedQuestions
+            .prefix(sectionIndex)
+            .reduce(0) { total, currentSection in
+                total + currentSection.questions.count
+            }
+
+        return VStack(alignment: .leading, spacing: 22) {
+            sectionLabel(section.title)
+
+            ForEach(section.questions.indices, id: \.self) { questionIndex in
+                let answerIndex = startingQuestionIndex + questionIndex
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(section.questions[questionIndex])
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.black)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    HStack(spacing: 0) {
+                        ForEach(1...5, id: \.self) { displayedValue in
+                            scoreButton(
+                                displayedValue: displayedValue,
+                                answerIndex: answerIndex
+                            )
+
+                            if displayedValue < 5 {
+                                Spacer(minLength: 4)
                             }
                         }
                     }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.03), radius: 5, x: 0, y: 2)
                 }
             }
-            .padding()
         }
+        .padding(.top, 4)
     }
-    private func scoreCircleButton(score: Int, index: Int) -> some View {
-        Button {
-            viewModel.answers[index] = "\(score)"
+
+    // MARK: - Score Buttons
+
+    private func scoreButton(displayedValue: Int, answerIndex: Int) -> some View {
+        let storedValue = displayedValue - 1
+        let isSelected = viewModel.answers[answerIndex] == "\(storedValue)"
+
+        return Button {
+            viewModel.answers[answerIndex] = "\(storedValue)"
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         } label: {
-            Text("\(score)")
-                .font(.subheadline.bold())
-                .frame(width: 55, height: 55)
-                .background(viewModel.answers[index] == "\(score)" ? Color("SecondaryColor") : Color(.systemGray6))
-                .foregroundColor(viewModel.answers[index] == "\(score)" ? .white : .primary)
-                .clipShape(Circle())
+            Text("\(displayedValue)")
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(isSelected ? .white : .black)
+                .frame(width: 48, height: 48)
+                .background(isSelected ? purple : Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 17))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 17)
+                        .stroke(purple, lineWidth: 1.3)
+                }
         }
         .buttonStyle(.plain)
     }
+
+    // MARK: - Footer
+
     private var footerView: some View {
-        VStack(spacing: 0) {
-            Divider()
-            
-            VStack(spacing: 12) {
-                HStack {
-                    Text("Total Score: \(viewModel.totalScore)")
-                        .font(.headline)
-                    
-                    Spacer()
-                    if activeSectionIndex > 0 {
-                        Button {
-                            withAnimation { activeSectionIndex -= 1 }
-                        } label: {
-                            Image(systemName: "arrow.left.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                if activeSectionIndex < viewModel.sectionedQuestions.count - 1 {
-                    Button {
-                        withAnimation { activeSectionIndex += 1 }
-                    } label: {
-                        Text("Next Section")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color("SecondaryColor"))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                } else {
-                    Button {
-                        Task { await viewModel.save() }
-                    } label: {
-                        if viewModel.isLoading {
-                            ProgressView().tint(.white)
-                        } else {
-                            Text("Save Assessment")
-                                .bold()
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                    }
-                }
-                if let error = viewModel.errorMessage {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.center)
-                }
+        VStack(spacing: 10) {
+            if let error = viewModel.errorMessage {
+                Text(error)
+                    .font(.system(size: 13))
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
             }
-            .padding()
-            .background(Color(.systemBackground))
+
+            Button {
+                Task {
+                    await viewModel.save()
+                }
+            } label: {
+                Group {
+                    if viewModel.isLoading {
+                        ProgressView().tint(coral)
+                    } else {
+                        Text("Save answers")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(coral)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 58)
+                .background(purple)
+                .clipShape(RoundedRectangle(cornerRadius: 18))
+            }
+            .disabled(viewModel.isLoading)
         }
+        .padding(.horizontal, 38)
+        .padding(.top, 12)
+        .padding(.bottom, 12)
+        .background(Color.white)
+    }
+
+    // MARK: - Shared Label
+
+    private func sectionLabel(_ title: String) -> some View {
+        Text(title)
+            .font(.system(size: 16, weight: .bold))
+            .foregroundColor(purple)
     }
 }
+
 #Preview {
-    QoLView()
+    NavigationStack {
+        QoLView()
+    }
 }
